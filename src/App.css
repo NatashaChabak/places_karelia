@@ -1,0 +1,102 @@
+:root {
+    --app-sidebar-width: 360px;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background: #f3f5f7;
+}
+
+.app-shell {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-header {
+    background: #1f3a4c;
+    color: #fff;
+}
+
+.app-header .navbar-brand {
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.app-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: minmax(280px, var(--app-sidebar-width)) 1fr;
+    min-height: 0;
+}
+
+.app-sidebar {
+    background: #fff;
+    border-right: 1px solid #dde2e8;
+    overflow: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-height: calc(100vh - 56px);
+}
+
+.app-map-pane {
+    min-height: 0;
+    position: relative;
+}
+
+.places-map {
+    width: 100%;
+    height: 100%;
+    min-height: calc(100vh - 56px);
+}
+
+.places-list {
+    max-height: 42vh;
+    overflow: auto;
+}
+
+.places-list .list-group-item {
+    cursor: pointer;
+}
+
+.selected-marker {
+    filter: hue-rotate(140deg) saturate(1.4);
+}
+
+.section-card {
+    border: 1px solid #e4e8ee;
+    border-radius: 0.5rem;
+    padding: 0.85rem;
+    background: #fafbfc;
+}
+
+@media (max-width: 991.98px) {
+    .app-body {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto minmax(50vh, 1fr);
+    }
+
+    .app-sidebar {
+        max-height: none;
+        border-right: none;
+        border-bottom: 1px solid #dde2e8;
+    }
+
+    .places-map {
+        min-height: 50vh;
+        height: 55vh;
+    }
+
+    .places-list {
+        max-height: 28vh;
+    }
+}
