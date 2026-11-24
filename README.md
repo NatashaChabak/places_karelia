@@ -1,75 +1,67 @@
-# React + TypeScript + Vite
+# Places App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React frontend for browsing and managing places on an interactive map. Built for the Karelia AMK Distributed Systems / web course (DM_2026 day 3).
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Show places in a **list** and on a **Leaflet map**
+- Clicking a list item highlights the marker (and opens its popup); clicking a marker selects the list item
+- **Register / login** against the Places API; JWT stored in `localStorage`
+- **Add**, **edit**, and **delete** places (requires a valid token; only own places)
+- Map click fills coordinates when adding a place
+- List and markers limited to places that **fit the current map view**
+- Responsive layout with **Bootstrap / react-bootstrap**
 
-## React Compiler
+## Tech stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React + TypeScript + Vite
+- react-leaflet / Leaflet
+- Bootstrap + react-bootstrap
 
-## Expanding the ESLint configuration
+## Requirements
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Node.js
+- Places API backend running (e.g. `C:\KareliaAMK\DM_2026\final` on port 3000)
+- MySQL/MariaDB with the `placesapp` database (for the backend)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Setup
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Create a `.env` file in the project root:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```env
+VITE_SERVER_URL=http://localhost:3000
 ```
+
+## Run
+
+Start the backend first, then:
+
+```bash
+npm run dev
+```
+
+Open the URL Vite prints (usually `http://localhost:5173`).
+
+## Scripts
+
+| Command        | Description              |
+|----------------|--------------------------|
+| `npm run dev`  | Start Vite dev server    |
+| `npm run build`| Typecheck + production build |
+| `npm run lint` | Run ESLint               |
+| `npm run preview` | Preview production build |
+
+## API used
+
+| Method | Path | Auth | Purpose |
+|--------|------|------|---------|
+| GET | `/api/places` | No | List places |
+| POST | `/api/places` | JWT | Create place |
+| PUT | `/api/places/:id` | JWT | Update own place |
+| DELETE | `/api/places/:id` | JWT | Delete own place |
+| POST | `/api/users` | No | Register |
+| POST | `/api/login` | No | Login (returns `Token`) |
